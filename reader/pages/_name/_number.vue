@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-4 max-w-3xl mx-auto py-8">
     <nuxt-link
-      class="p-4 bg-purple-500 text-gray-900 rounded text-center font-bold"
+      class="p-4 bg-purple-300 text-gray-900 rounded text-center font-bold mx-4"
       :to="`/${manga.nameSlug}`"
       >{{ manga.name }}</nuxt-link
     >
@@ -16,13 +16,13 @@
     />
     <nuxt-link
       v-if="!!prevChapter"
-      class="p-4 bg-purple-500 text-gray-900 rounded text-center font-bold"
+      class="p-4 bg-purple-300 text-gray-900 rounded text-center font-bold mx-4"
       :to="`${prevChapter}`"
       ><span>Anterior</span></nuxt-link
     >
     <nuxt-link
       v-if="nextChapter"
-      class="p-4 bg-purple-500 text-gray-900 rounded text-center font-bold"
+      class="p-4 bg-purple-300 text-gray-900 rounded text-center font-bold mx-4"
       :to="`${nextChapter}`"
       ><span>Proximo</span></nuxt-link
     >
@@ -31,6 +31,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
+import { mapMutations } from 'vuex'
+import * as mutationTypes from '@/store/types/mutationTypes'
 export default Vue.extend({
   components: {},
   data() {
@@ -41,6 +43,9 @@ export default Vue.extend({
   computed: {
     nameSlug() {
       return this.$route.params.name
+    },
+    identifierSlug() {
+      return this.$route.params.number
     },
     manga() {
       const nameSlug = this.$route.params.name
@@ -64,6 +69,17 @@ export default Vue.extend({
       })
       return (this as any).manga?.chapters?.[index - 1]?.identifierSlug
     },
+  },
+  mounted() {
+    this.setState({
+      nameSlug: (this as any).nameSlug,
+      identifierSlug: (this as any).identifierSlug,
+    })
+  },
+  methods: {
+    ...mapMutations({
+      setState: mutationTypes.SET_STATE,
+    }),
   },
 })
 </script>

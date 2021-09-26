@@ -1,8 +1,10 @@
 <template>
   <div class="p-8 flex gap-4 flex-wrap justify-center min-h-screen">
-    <div v-for="manga in mangas" :key="manga.nameSlug">
+    <div v-for="manga in mangas" :key="manga.nameSlug" class="manga-item">
       <nuxt-link :to="`/${manga.nameSlug}`">
-        <img :src="manga.cover" alt="" />
+        <div class="img-wrapper">
+          <img class="img-cover" :src="manga.cover" alt="" />
+        </div>
         <span class="font-bold text-gray-400">{{ manga.name }}</span>
       </nuxt-link>
     </div>
@@ -30,3 +32,25 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style lang="postcss" scoped>
+.img-wrapper {
+  position: relative;
+  width: 225px;
+  height: 0;
+  padding-top: 323px;
+  @apply bg-gray-300;
+}
+.img-cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.manga-item {
+  max-width: 225px;
+}
+</style>
