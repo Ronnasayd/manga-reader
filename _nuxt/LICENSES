@@ -10,6 +10,12 @@
  * Released under the MIT License.
  */
 
+/*!
+ * vuex v3.6.2
+ * (c) 2021 Evan You
+ * @license MIT
+ */
+
 
 /**
  * @license
@@ -32,3 +38,5 @@
  * (c) 2018-present egoist <0x142857@gmail.com>
  * Released under the MIT License.
  */
+
+/*! (c) 2020 Andrea Giammarchi */
