@@ -3,7 +3,7 @@ import MangaLivreAdapter from "./src/Infra/Adapters/MangaLivreAdapter";
 import JSONDatabase from "./src/Infra/Database/database";
 
 const dragonMaid = new MangaLivreAdapter(
-  "https://mangalivre.net/manga/kaguya-sama-love-is-war/3918"
+  "https://mangalivre.net/manga/tensei-shitara-slime-datta-ken/2692"
 );
 
 const mangaCreator = new MangaCreator(dragonMaid);
