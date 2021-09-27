@@ -1,6 +1,10 @@
 <template>
   <div class="p-8 flex gap-4 flex-wrap justify-center min-h-screen">
-    <div v-for="manga in mangas" :key="manga.nameSlug" class="manga-item">
+    <div
+      v-for="manga in filteredMangas"
+      :key="manga.nameSlug"
+      class="manga-item"
+    >
       <nuxt-link :to="`/${manga.nameSlug}`">
         <div class="img-wrapper">
           <img class="img-cover" :src="manga.cover" alt="" />
@@ -16,13 +20,18 @@ import Vue from 'vue'
 import Manga from '@/types/manga'
 
 export default Vue.extend({
+  async asyncData({ $axios }) {
+    const response = await $axios.get(
+      'https://raw.githubusercontent.com/Ronnasayd/manga-reader/main/crawler/db.json'
+    )
+    const database = { database: response.data }
+    return database
+  },
   data() {
-    return {
-      database: require('@/database/db.json'),
-    }
+    return {}
   },
   computed: {
-    mangas() {
+    filteredMangas() {
       return (this as any).database?.mangas?.map((manga: Manga) => ({
         name: manga.name,
         nameSlug: manga.nameSlug,

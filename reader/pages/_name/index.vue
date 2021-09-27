@@ -41,9 +41,14 @@ import Vue from 'vue'
 import * as _ from 'lodash'
 import {mapState} from "vuex"
 export default Vue.extend({
+  async asyncData({ $axios }) {
+    const response = await $axios.get(
+      'https://raw.githubusercontent.com/Ronnasayd/manga-reader/main/crawler/db.json'
+    )
+    return { database: response.data }
+  },
   data() {
     return {
-      database: require('@/database/db.json'),
     }
   },
   computed: {

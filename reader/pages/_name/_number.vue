@@ -5,6 +5,18 @@
       :to="`/${manga.nameSlug}`"
       >{{ manga.name }}</nuxt-link
     >
+    <nuxt-link
+      v-if="!!prevChapter"
+      class="p-4 bg-purple-300 text-gray-900 rounded text-center font-bold mx-4"
+      :to="`${prevChapter}`"
+      ><span>Anterior</span></nuxt-link
+    >
+    <nuxt-link
+      v-if="nextChapter"
+      class="p-4 bg-purple-300 text-gray-900 rounded text-center font-bold mx-4"
+      :to="`${nextChapter}`"
+      ><span>Proximo</span></nuxt-link
+    >
     <img
       v-for="image in chapter.images"
       :key="image.url"
@@ -35,10 +47,14 @@ import { mapMutations } from 'vuex'
 import * as mutationTypes from '@/store/types/mutationTypes'
 export default Vue.extend({
   components: {},
+  async asyncData({ $axios }) {
+    const response = await $axios.get(
+      'https://raw.githubusercontent.com/Ronnasayd/manga-reader/main/crawler/db.json'
+    )
+    return { database: response.data }
+  },
   data() {
-    return {
-      database: require('@/database/db.json'),
-    }
+    return {}
   },
   computed: {
     nameSlug() {
