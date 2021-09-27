@@ -5,7 +5,7 @@ import Chapter from "../../Domain/Entity/Chapter";
 import MangaRepository from "../../Domain/Repository/MangaRepository";
 import decrypt from "../../reader";
 
-export default class MangaLivreAdapter implements MangaRepository {
+export default class MangaLivreRepository implements MangaRepository {
   url: string;
   constructor(url: string) {
     this.url = url;

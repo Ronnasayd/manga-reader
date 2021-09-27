@@ -1,8 +1,8 @@
 import MangaCreator from "./src/Domain/UseCase/MangaCreator";
-import MangaLivreAdapter from "./src/Infra/Adapters/MangaLivreAdapter";
+import MangaLivreRepository from "./src/Infra/Repository/MangaLivreRepository";
 import JSONDatabase from "./src/Infra/Database/database";
 
-const dragonMaid = new MangaLivreAdapter(
+const dragonMaid = new MangaLivreRepository(
   "https://mangalivre.net/manga/tensei-shitara-slime-datta-ken/2692"
 );
 

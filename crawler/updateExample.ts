@@ -1,9 +1,9 @@
 import MangaUpdate from "./src/Domain/UseCase/MangaUpdate";
 import MangaDTO from "./src/DTO/MangaDTO";
-import MangaLivreAdapter from "./src/Infra/Adapters/MangaLivreAdapter";
+import MangaLivreRepository from "./src/Infra/Repository/MangaLivreRepository";
 import fs from "fs";
 
-const nagatoro = new MangaLivreAdapter(
+const nagatoro = new MangaLivreRepository(
   "https://mangalivre.net/manga/kaguya-sama-love-is-war/3918"
 );
 const nagaData = JSON.parse(fs.readFileSync("./kaguya.json").toString());
