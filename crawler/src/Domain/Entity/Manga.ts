@@ -23,6 +23,7 @@ export default class Manga {
     this.urlOrigin = urlOrigin;
     this.cover = cover;
     this.chapters = [];
+    log(`creating manga ${this.name}`);
   }
   addChapter(chapter: Chapter) {
     log(`adding ${chapter.identifier} of ${this.name}`);

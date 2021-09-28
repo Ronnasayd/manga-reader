@@ -3,7 +3,7 @@ import MangaLivreRepository from "./src/Infra/Repository/MangaLivreRepository";
 import JSONDatabase from "./src/Infra/Database/database";
 
 const dragonMaid = new MangaLivreRepository(
-  "https://mangalivre.net/manga/mairimashita-iruma-kun/6708"
+  "https://mangalivre.net/manga/black-clover/1751"
 );
 
 const mangaCreator = new MangaCreator(dragonMaid);

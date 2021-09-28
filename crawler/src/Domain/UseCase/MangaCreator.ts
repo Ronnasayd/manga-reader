@@ -25,17 +25,21 @@ export default class MangaCreator {
     const chaptersLinks = await this.mangaRepository.getMangaChaptersLink();
 
     for await (const chapterLink of chaptersLinks) {
-      log(`getting images of ${chapterLink}`);
-      const chapter = new Chapter(
-        _.chain(chapterLink).split("/").last().value(),
-        chapterLink
-      );
-      const images = await this.mangaRepository.getMangaImagesByChapter(
-        chapterLink
-      );
-      const imagesInstances = images.map((image) => new Image(image));
-      chapter.replaceImages(imagesInstances);
-      manga.addChapter(chapter);
+      try {
+        log(`getting images of ${chapterLink}`);
+        const chapter = new Chapter(
+          _.chain(chapterLink).split("/").last().value(),
+          chapterLink
+        );
+        const images = await this.mangaRepository.getMangaImagesByChapter(
+          chapterLink
+        );
+        const imagesInstances = images?.map((image) => new Image(image));
+        chapter.replaceImages(imagesInstances);
+        manga.addChapter(chapter);
+      } catch (error) {
+        log(error);
+      }
     }
     return manga;
   }

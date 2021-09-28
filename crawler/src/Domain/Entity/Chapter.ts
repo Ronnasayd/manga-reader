@@ -2,7 +2,7 @@ import _ from "lodash";
 import Image from "./Image";
 import debug from "debug";
 
-const log = debug("MangaHandler:Chapter");
+const log = debug("MangaHandle:Chapter");
 
 export default class Chapter {
   identifier: string;
@@ -14,6 +14,7 @@ export default class Chapter {
     this.identifierSlug = _.snakeCase(this.identifier);
     this.originUrl = originUrl;
     this.images = [];
+    log(`creating chapter ${this.identifier}`);
   }
   addImage(image: Image) {
     log(`adding image ${image.url} ...`);
