@@ -3,7 +3,7 @@ import MangaLivreRepository from "./src/Infra/Repository/MangaLivreRepository";
 import JSONDatabase from "./src/Infra/Database/database";
 
 const dragonMaid = new MangaLivreRepository(
-  "https://mangalivre.net/manga/tensei-shitara-slime-datta-ken/2692"
+  "https://mangalivre.net/manga/mairimashita-iruma-kun/6708"
 );
 
 const mangaCreator = new MangaCreator(dragonMaid);
