@@ -1,20 +1,42 @@
 import MangaUpdate from "./src/Domain/UseCase/MangaUpdate";
 import MangaDTO from "./src/DTO/MangaDTO";
 import MangaLivreRepository from "./src/Infra/Repository/MangaLivreRepository";
-import fs from "fs";
+import JSONDatabase from "./src/Infra/Database/database";
+import _ from "lodash";
 
-const nagatoro = new MangaLivreRepository(
-  "https://mangalivre.net/manga/kaguya-sama-love-is-war/3918"
+const jsonDatabase = new JSONDatabase("./db.json");
+jsonDatabase.read();
+
+const mangas = Promise.all(
+  jsonDatabase.database.mangas.map(async (manga) => {
+    const mangaLivreRepository = new MangaLivreRepository(manga.urlOrigin);
+    const magaUpdate = new MangaUpdate(mangaLivreRepository);
+    try {
+      const newChapters = await magaUpdate.execute(2);
+      manga.chapters.unshift(...newChapters);
+      manga.chapters = _.uniqBy(manga.chapters, "identifier");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      return manga;
+    }
+  })
 );
-const nagaData = JSON.parse(fs.readFileSync("./kaguya.json").toString());
 
-const mangaDTO = new MangaDTO(
-  nagaData.name,
-  nagaData.description,
-  nagaData.urlOrigin,
-  nagaData.cover,
-  nagaData.chapters
-);
+mangas.then((m) => {
+  jsonDatabase.database.mangas = m;
+  jsonDatabase.write();
+});
 
-const magaUpdate = new MangaUpdate(mangaDTO, nagatoro);
-magaUpdate.execute(2).then((m) => console.log(JSON.stringify(m)));
+// const magaUpdate = new MangaUpdate(nagatoro);
+// magaUpdate.execute(2).then((m) => {
+//   jsonDatabase.read();
+//   const manga = _.find(jsonDatabase.database.mangas, {
+//     urlOrigin: "https://mangalivre.net/manga/kaguya-sama-love-is-war/3918",
+//   });
+//   const chapters = manga.chapters.slice(2, manga.chapters.length);
+//   chapters.unshift(...m);
+//   const u = _.uniqBy(chapters, "identifier");
+
+//   console.log(JSON.stringify(u));
+// });

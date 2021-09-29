@@ -5,10 +5,8 @@ import MangaDTO from "../../DTO/MangaDTO";
 import Chapter from "../Entity/Chapter";
 
 export default class MangaUpdate {
-  manga: MangaDTO;
   mangaRepository: MangaRepository;
-  constructor(manga: MangaDTO, mangaRepository: MangaRepository) {
-    this.manga = manga;
+  constructor(mangaRepository: MangaRepository) {
     this.mangaRepository = mangaRepository;
   }
   async execute(numberOfChapters: number) {
@@ -17,24 +15,19 @@ export default class MangaUpdate {
       numberOfChapters
     );
     for await (const chapterLink of chaptersLinks) {
-      const chapter = {};
-      chapter["originUrl"] = chapterLink;
-      chapter["identifier"] = _.chain(chapterLink).split("/").last().value();
+      const chapter = new Chapter(
+        _.chain(chapterLink).split("/").last().value(),
+        chapterLink
+      );
 
       const images = await this.mangaRepository.getMangaImagesByChapter(
         chapterLink
       );
-      chapter["images"] = images.map((img) => ({ url: img }));
+      chapter.replaceImages(images.map((img) => ({ url: img })));
 
       chapters.push(chapter);
     }
 
-    const unionChapters = _.unionBy(
-      this.manga.chapters,
-      chapters,
-      "identifier"
-    );
-    this.manga.chapters = unionChapters;
-    return this.manga;
+    return chapters;
   }
 }
